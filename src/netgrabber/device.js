@@ -1,3 +1,4 @@
+'use strict'
 
 const MakeDevice = (device = {}) => ({
     id: () => (device.id || null),

@@ -1,3 +1,5 @@
+'use strict'
+
 const serialize = (_measure, _device) => {
     const _measureCopy = Object.assign({}, _measure);
     if (_device.hasOwnProperty("id")) {
