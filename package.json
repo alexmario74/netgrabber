@@ -1,0 +1,24 @@
+{
+  "name": "netgrabber",
+  "version": "0.0.1",
+  "description": "A demo network measures collector",
+  "main": "src/netgrabber/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc mocha"
+  },
+  "keywords": [
+    "newtwork",
+    "measures",
+    "demo"
+  ],
+  "author": "Mario A. Santini",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1"
+  }
+}
