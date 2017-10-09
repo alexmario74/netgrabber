@@ -76,4 +76,14 @@ describe('Netgrabber should handle a measure', () => {
         const measure1 = MakeMeasure({}, MakeDevice({id: 1}));
         assert(measure1.device().id() === 1);
     })
+
+    it('Should be possible to have multiple measures', () => {
+        const measure1 = MakeMeasure({name: 'measure1', time: '2017-10-06T13:06:43.887Z', value: 12.1});
+        const measure2 = MakeMeasure({name: 'measure2', time: '2017-10-06T13:07:43.887Z', value: 11.2});
+        const measure3 = MakeMeasure({name: 'measure3', time: '2017-10-06T13:08:43.887Z', value: 10.3});
+    
+        assert(measure1.name() === 'measure1' && 
+            measure2.name() === 'measure2' &&
+            measure3.name() === 'measure3')
+    })
 })
