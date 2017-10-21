@@ -25,9 +25,7 @@ const measureTime = time => {
         return rop;
     }
 
-    if (realMinute < 59) {
-        rop.setMinutes(45);
-    }
+    rop.setMinutes(45);
 
     return rop;
 }
