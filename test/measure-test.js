@@ -2,7 +2,6 @@ const assert = require('assert');
 const MakeMeasure = require('../src/netgrabber/measure');
 const MakeDevice = require('../src/netgrabber/device');
 
-console.log(MakeMeasure.hello)
 describe('Netgrabber should handle a measure', () => {
     it('A measure should have an id', () => {
         let measure = MakeMeasure();
