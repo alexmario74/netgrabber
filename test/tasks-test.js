@@ -1,6 +1,6 @@
 const assert = require('assert');
 const MakeDevice = require('../src/netgrabber/device');
-const service = require('../src/netgrabber/service');
+const tasks = require('../src/netgrabber/tasks');
 
 const emptyDevices = [];
 const devices = [{
@@ -29,7 +29,7 @@ const serviceStub = (devs) => {
 
 describe('Netgrabber should work with services', () => {
     it('loadDeviceFromService should return a promise', (done) => {
-        const ret = service.loadDeviceFromService(serviceStub(emptyDevices), MakeDevice);
+        const ret = tasks.loadDeviceFromService(serviceStub(emptyDevices), MakeDevice);
         assert(ret.then !== undefined, 'the return value is not a promise!');
         assert(ret.catch !== undefined, 'the return value is not a promise!');
         ret.then(() => (done()))
@@ -37,7 +37,7 @@ describe('Netgrabber should work with services', () => {
     })
 
     it('loadDeviceFromService should resolve in a list of valid device objects', (done) => {
-        const ret = service.loadDeviceFromService(serviceStub(devices), MakeDevice);
+        const ret = tasks.loadDeviceFromService(serviceStub(devices), MakeDevice);
         ret.then(devs => {
             assert.strictEqual(devs.length, devices.length, 'the returned list shoul have the same length');
             assert.strictEqual(typeof devs[0] , 'object', 'each devices should be a object');
