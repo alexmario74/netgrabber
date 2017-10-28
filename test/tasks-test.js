@@ -27,6 +27,20 @@ const serviceStub = (devs) => {
     };
 }
 
+const cacheStub = () => {
+    const _devs = [];
+    return {
+        store: function (ds = []) {
+            ds.map(d => {
+                _devs.push(d);
+            });
+        },
+        getAll: function () {
+            return _devs;
+        }
+    }
+}
+
 describe('Netgrabber should work with services', () => {
     it('loadDeviceFromService should return a promise', (done) => {
         const ret = tasks.loadDeviceFromService(serviceStub(emptyDevices), MakeDevice);
@@ -47,5 +61,16 @@ describe('Netgrabber should work with services', () => {
             done();
         })
         .catch(done);
+    })
+
+    it('Should be able to save a list of devices in local cache service', () => {
+        const cache = cacheStub();
+        tasks.storeDeviceInCache(cache, devices.map(MakeDevice));
+
+        assert.equal(cache.getAll().length, devices.length, 
+            'The cache should contain the exact number of devices stored');
+
+        assert.doesNotThrow(tasks.storeDeviceInCache);
+        assert.doesNotThrow(() => (tasks.storeDeviceInCache(cache)));
     })
 });
