@@ -2,11 +2,12 @@
   "name": "netgrabber",
   "version": "0.0.1",
   "description": "A demo network measures collector",
-  "main": "src/netgrabber/index.js",
+  "main": "./src/main.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "start": "node ./src/main.js",
     "test": "mocha",
     "coverage": "nyc --reporter=lcov --reporter=text-lcov mocha"
   },
