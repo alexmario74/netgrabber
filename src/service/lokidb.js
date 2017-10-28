@@ -21,14 +21,10 @@ const store = (lokidb, coll, object) => {
 }
 
 const storeOne = (lokidb, coll, object) => {
-    let doc = JSON.parse(object.serialize());
+    const doc = JSON.parse(object.serialize());
 
-    const dbDoc = coll.findOne(getIdFilter(doc));
-
-    if (dbDoc) {
-        dbDoc.measures = doc.measures;
-        coll.update(dbDoc);
-    }
+    if (coll.findOne(getIdFilter(doc)))
+        return;
     
     coll.insert(doc);
 }
