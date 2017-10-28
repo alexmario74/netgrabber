@@ -21,7 +21,6 @@ const store = (lokidb, coll, object) => {
 }
 
 const storeOne = (lokidb, coll, object) => {
-    console.log('aaa', object);
     let doc = JSON.parse(object.serialize());
 
     const dbDoc = coll.findOne(getIdFilter(doc));
