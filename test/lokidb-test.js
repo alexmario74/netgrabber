@@ -26,7 +26,5 @@ describe('(Cache) LokiJS', () => {
         }));
 
         const devs = devices.getAll();
-
-        console.log('devices', devs);
     })
 });
