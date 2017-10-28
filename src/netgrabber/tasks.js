@@ -6,6 +6,14 @@ const loadDeviceFromService = (service, MakeDevice) => {
             (devices.map(MakeDevice)));
 }
 
+const storeDeviceInCache = (cache, devices) => {
+    if (!devices) 
+        return;
+
+    const len = cache.store(devices);
+}
+
 module.exports.loadDeviceFromService = loadDeviceFromService;
+module.exports.storeDeviceInCache = storeDeviceInCache;
 
 exports = module.exports;
