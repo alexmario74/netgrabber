@@ -10,33 +10,34 @@ const { MakeDeviceSource } = require('./service/device-source');
 
 const { loadDeviceFromService } = require('./netgrabber/tasks');
 
-const { scheduleLoadNewDevices } = require('./schedule');
+const { scheduleLoadNewDevices, scheduleGrabMeasures } = require('./schedule');
 
 debug('load dependencies');
 
 const main = (db) => {
-    ['SIGINT', 'SIGILL'].forEach((signal) => 
-        process.on(signal, () => {
-            db.close();
-            process.exit();
-        }));
-
     debug('db loaded');
     
     const deviceCache = MakeCache(db, 'device');
     const measureCache = MakeCache(db, 'measure');
     const deviceSource = MakeDeviceSource();
 
-    scheduleLoadNewDevices({deviceSource, deviceCache, MakeDevice, errorHandling});
+    const cancelLoadDevices = scheduleLoadNewDevices({
+        deviceSource, deviceCache, MakeDevice, errorHandling
+    });
 
     const grabber = MakeGrabber(MakeMeasure);
 
-    setInterval(() => {
-        measureCache.store(
-            grabber(deviceCache.getAll().map(MakeDevice), 
-                getCurrentRop())
-                .map(MakeMeasure));
-    }, 60000);
+    const cancelGrabMeasure = scheduleGrabMeasures({
+        grabber, measureCache, deviceCache, MakeDevice
+    }, new Date());
+
+    ['SIGINT', 'SIGILL'].forEach((signal) => 
+    process.on(signal, () => {
+        cancelLoadDevices();
+        cancelGrabMeasure();
+        db.close();
+        process.exit();
+    }));
 }
 
 const errorHandling = (err) => {
