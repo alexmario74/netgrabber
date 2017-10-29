@@ -3,10 +3,12 @@ const debug = require('debug')('netgrabber');
 
 const MakeDevice = require('./netgrabber/device');
 const MakeMeasure = require('./netgrabber/measure');
+const MakeGrabber = require('./netgrabber/grabber');
+
 const { MakeCache } = require('./service/lokidb');
 const { MakeDeviceSource } = require('./service/device-source');
 
-const { loadDeviceFromService, storeDeviceInCache } = require('./netgrabber/tasks');
+const { loadDeviceFromService } = require('./netgrabber/tasks');
 
 const { scheduleLoadNewDevices } = require('./schedule');
 
@@ -25,7 +27,16 @@ const main = (db) => {
     const measureCache = MakeCache(db, 'measure');
     const deviceSource = MakeDeviceSource();
 
-    scheduleLoadNewDevices({deviceSource, deviceCache, MakeDevice, storeDeviceInCache, errorHandling});
+    scheduleLoadNewDevices({deviceSource, deviceCache, MakeDevice, errorHandling});
+
+    const grabber = MakeGrabber(MakeMeasure);
+
+    setInterval(() => {
+        measureCache.store(
+            grabber(deviceCache.getAll().map(MakeDevice), 
+                getCurrentRop())
+                .map(MakeMeasure));
+    }, 60000);
 }
 
 const errorHandling = (err) => {

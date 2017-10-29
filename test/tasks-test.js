@@ -62,15 +62,4 @@ describe('Netgrabber should work with services', () => {
         })
         .catch(done);
     })
-
-    it('Should be able to save a list of devices in local cache service', () => {
-        const cache = cacheStub();
-        tasks.storeDeviceInCache(cache, devices.map(MakeDevice));
-
-        assert.equal(cache.getAll().length, devices.length, 
-            'The cache should contain the exact number of devices stored');
-
-        assert.doesNotThrow(tasks.storeDeviceInCache);
-        assert.doesNotThrow(() => (tasks.storeDeviceInCache(cache)));
-    })
 });
