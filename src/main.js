@@ -8,6 +8,8 @@ const { MakeDeviceSource } = require('./service/device-source');
 
 const { loadDeviceFromService, storeDeviceInCache } = require('./netgrabber/tasks');
 
+const { scheduleLoadNewDevices } = require('./schedule');
+
 debug('load dependencies');
 
 const main = (db) => {
@@ -23,13 +25,7 @@ const main = (db) => {
     const measureCache = MakeCache(db, 'measure');
     const deviceSource = MakeDeviceSource();
 
-    setInterval(() => {
-        deviceSource.loadNewDevices()
-            .then(devices => 
-                storeDeviceInCache(deviceCache, 
-                    devices.map(MakeDevice)))
-            .catch(errorHandling);
-        }, 20000);
+    scheduleLoadNewDevices({deviceSource, deviceCache, MakeDevice, storeDeviceInCache, errorHandling});
 }
 
 const errorHandling = (err) => {
