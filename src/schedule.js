@@ -2,6 +2,9 @@
 
 const debug = require('debug')('ng:scheduler');
 
+const makeScheduler = (fn, interval) => 
+    makeSchedulerCancellation(setInterval(fn, inteval));
+
 const makeSchedulerCancellation = cancel => _ => clearInterval(cancel);
 
 module.exports.scheduleLoadNewDevices = ({
@@ -10,26 +13,27 @@ module.exports.scheduleLoadNewDevices = ({
     MakeDevice,
     errorHandling
 }, interval = 20000) => 
-    makeSchedulerCancellation(setInterval(() => {
+    makeScheduler(() => {
         debug('start to load devices');
         deviceSource.loadNewDevices()
             .then(devices => 
                 deviceCache.store(devices.map(MakeDevice)))
             .catch(errorHandling);
-        }, interval));
+        }, interval);
 
 module.exports.scheduleGrabMeasures = ({
     grabber,
     measureCache,
     deviceCache,
-    MakeDevice
+    MakeDevice,
+    sender
 }, rop, interval = 60000) => 
-    makeSchedulerCancellation(setInterval(() => {
+    makeScheduler(() => {
         debug('start to grab measures');
-        measureCache.store(
-            grabber(deviceCache
-                    .getAll().map(MakeDevice), 
-                rop));
-    }, interval));
+        const devices = deviceCache.getAll().map(MakeDevice);
+        const measures = grabber(devices, rop);
+        measureCache.store(measures);
+        sender && sender.send(measures);
+    }, interval);
 
 exports = module.exports;
