@@ -3,7 +3,7 @@
 const debug = require('debug')('ng:scheduler');
 
 const makeScheduler = (fn, interval) => 
-    makeSchedulerCancellation(setInterval(fn, inteval));
+    makeSchedulerCancellation(setInterval(fn, interval));
 
 const makeSchedulerCancellation = cancel => _ => clearInterval(cancel);
 
