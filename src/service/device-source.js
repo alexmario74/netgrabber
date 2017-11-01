@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 exports = module.exports.MakeDeviceSource = () => ({
     loadNewDevices: function () {
-        return new Promise((resolve, _) => {
-                resolve([{
+        return new Promise((resolve) => {
+            resolve([{
                 id: 1,
                 name: 'device-1',
                 measures: ['LTE_AVAILABILITY', 'LTE_ATTEMPTS', 'LTE_DOWNTIME']
@@ -30,4 +30,4 @@ exports = module.exports.MakeDeviceSource = () => ({
             }]);
         });
     }
-})
+});

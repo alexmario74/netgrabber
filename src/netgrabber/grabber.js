@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 let _measureId = 0;
 
-const measureId = _ => (_measureId++)
+const measureId = () => (_measureId++);
 
 const measureTime = time => {
     let rop = new Date(time.getTime());
@@ -28,9 +28,9 @@ const measureTime = time => {
     rop.setMinutes(45);
 
     return rop;
-}
+};
 
-const grabMeasureValue = measure => (+(Math.random()*100).toPrecision(4));
+const grabMeasureValue = () => (+(Math.random()*100).toPrecision(4));
 
 const grabMeasures = (measures, time) => 
     (measures
@@ -40,7 +40,7 @@ const grabMeasures = (measures, time) =>
             time: measureTime(time), 
             value: grabMeasureValue(measure)
         }))
-    )
+    );
 
 const MakeGrabber = (MakeMeasure) => 
     (devices, time = new Date()) => {
@@ -56,6 +56,6 @@ const MakeGrabber = (MakeMeasure) =>
         }
 
         return measures;
-    }
+    };
 
 exports = module.exports = MakeGrabber;

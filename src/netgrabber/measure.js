@@ -1,13 +1,13 @@
-'use strict'
+'use strict';
 
 const serialize = (_measure, _device) => {
     const _measureCopy = Object.assign({}, _measure);
-    if (_device.hasOwnProperty("id")) {
+    if (_device.hasOwnProperty('id')) {
         _measureCopy.device = _device.id();
     }
 
     return JSON.stringify(_measureCopy);
-}
+};
 
 const MakeMeasure = (measure = {}, device = {}) => ({
     id: () => measure.id || null,

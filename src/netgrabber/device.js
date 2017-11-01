@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const MakeDevice = (device = {}) => ({
     id: () => (device.id || null),
@@ -7,7 +7,7 @@ const MakeDevice = (device = {}) => ({
     serialize: () => JSON.stringify(device)
 });
 
-const fromSerialized = (serializedDevice = "{}") => 
+const fromSerialized = (serializedDevice = '{}') => 
     MakeDevice(JSON.parse(serializedDevice));
 
 exports = module.exports = MakeDevice;

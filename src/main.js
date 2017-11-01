@@ -8,8 +8,6 @@ const MakeGrabber = require('./netgrabber/grabber');
 const { MakeCache } = require('./service/lokidb');
 const { MakeDeviceSource } = require('./service/device-source');
 
-const { loadDeviceFromService } = require('./netgrabber/tasks');
-
 const { scheduleLoadNewDevices, scheduleGrabMeasures } = require('./schedule');
 
 debug('load dependencies');
@@ -32,22 +30,22 @@ const main = (db) => {
     }, new Date());
 
     ['SIGINT', 'SIGILL'].forEach((signal) => 
-    process.on(signal, () => {
-        cancelLoadDevices();
-        cancelGrabMeasure();
-        db.close();
-        process.exit();
-    }));
-}
+        process.on(signal, () => {
+            cancelLoadDevices();
+            cancelGrabMeasure();
+            db.close();
+            process.exit();
+        }));
+};
 
 const errorHandling = (err) => {
     debug('ERROR', err);
-}
+};
 
 let db = new lokijs('netgrabber.json',
-{
-    autoload: true,
-    autoloadCallback : () => (main(db)),
-    autosave: true, 
-    autosaveInterval: 4000
-});
+    {
+        autoload: true,
+        autoloadCallback : () => (main(db)),
+        autosave: true, 
+        autosaveInterval: 4000
+    });

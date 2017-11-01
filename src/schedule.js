@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 const debug = require('debug')('ng:scheduler');
 
 const makeScheduler = (fn, interval) => 
     makeSchedulerCancellation(setInterval(fn, interval));
 
-const makeSchedulerCancellation = cancel => _ => clearInterval(cancel);
+const makeSchedulerCancellation = cancel => () => clearInterval(cancel);
 
 module.exports.scheduleLoadNewDevices = ({
     deviceSource, 
@@ -19,7 +19,7 @@ module.exports.scheduleLoadNewDevices = ({
             .then(devices => 
                 deviceCache.store(devices.map(MakeDevice)))
             .catch(errorHandling);
-        }, interval);
+    }, interval);
 
 module.exports.scheduleGrabMeasures = ({
     grabber,
