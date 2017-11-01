@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node ./src/main.js",
     "test": "mocha",
-    "coverage": "nyc --reporter=lcov --reporter=text-lcov mocha"
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov mocha",
+    "lint": "eslint src/**"
   },
   "keywords": [
     "newtwork",
@@ -19,6 +20,7 @@
   "author": "Mario A. Santini",
   "license": "SEE LICENSE IN LICENSE.txt",
   "devDependencies": {
+    "eslint": "^4.10.0",
     "mocha": "^4.0.1",
     "nyc": "^11.2.1"
   },
