@@ -17,7 +17,7 @@ const main = (db) => {
     
     const deviceCache = MakeCache(db, 'device');
     const measureCache = MakeCache(db, 'measure');
-    const deviceSource = MakeDeviceSource();
+    const deviceSource = MakeDeviceSource(redisOptions());
 
     const cancelLoadDevices = scheduleLoadNewDevices({
         deviceSource, deviceCache, MakeDevice, errorHandling
@@ -37,6 +37,11 @@ const main = (db) => {
             process.exit();
         }));
 };
+
+const redisOptions = () => ({
+    'host': (process.env.REDIS_HOST || '192.168.99.100'),
+    'port': (process.env.REDIS_PORT || 6379)
+});
 
 const errorHandling = (err) => {
     debug('ERROR', err);
