@@ -25,6 +25,7 @@
     "nyc": "^11.2.1"
   },
   "dependencies": {
-    "lokijs": "^1.5.1"
+    "lokijs": "^1.5.1",
+    "redis": "^2.8.0"
   }
 }
